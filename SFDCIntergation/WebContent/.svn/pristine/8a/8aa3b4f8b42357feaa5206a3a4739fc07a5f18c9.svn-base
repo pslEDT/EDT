@@ -1,0 +1,42 @@
+<mvc:View
+	height="100%"
+	controllerName="smpdemo.Landing"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<Page
+		showHeader="false"
+		enableScrolling="false" >
+		<TileContainer>
+		<StandardTile
+		    class="tile-container"
+			number="15"
+			title="View Leads"
+			infoState="Error"
+			press= "getLeads" />
+		<StandardTile
+		    class="tile-container"
+			number="3"
+			title="View Cases"
+			infoState="Error"
+			press= "getCases" />
+		<StandardTile
+		    class="tile-container"
+			number="30"
+			title="View Contacts"
+			infoState="Error"
+			press= "getContacts" />
+		<StandardTile
+		    class="tile-container"
+			number="25"
+			title="View Opportunities"
+			infoState="Error"
+			press= "getOpportunities" />
+		<StandardTile
+		    class="tile-container"
+			number="12"
+			title="View Accounts"
+			infoState="Error"
+			press= "getAccounts" />
+		</TileContainer>
+	</Page>
+</mvc:View>

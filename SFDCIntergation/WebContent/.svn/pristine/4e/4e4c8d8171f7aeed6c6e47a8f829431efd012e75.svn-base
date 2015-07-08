@@ -1,0 +1,184 @@
+sap.ui.controller("smpdemo.Detail", {
+
+/**
+* Called when a controller is instantiated and its View controls (if available) are already created.
+* Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
+* @memberOf smpdemo.Detail
+*/
+	onInit: function() {
+
+		//var accountsModel = sap.ui.getCore().setModel("accountsModel");
+		//Order Table
+		
+
+		//Order Count
+		//countOrder = sap.ui.getCore().byId("idOrderCount");
+
+		//Customer Detail Form
+		//customerForm = sap.ui.getCore().byId("oCustomerDetailsFormid");
+
+		//Application Controller
+		//nav = sap.ui.getCore().byId('App').getController();
+		
+		//Subscribed "orderDataLoaded" event
+		/*var bus = sap.ui.getCore().getEventBus();
+		bus.subscribe("app", "orderDataLoaded", function () {
+			detailViewModel = sap.ui.getCore().getModel("detailViewModel");
+
+			orderViewModel = sap.ui.getCore().getModel("orderViewModel");
+			countOrder.setCount(orderViewModel.oData.results.length);
+
+			orderTable.setVisible(true);
+			orderTable.setModel(orderViewModel);
+
+			customerForm.setVisible(true);
+			customerForm.setModel(detailViewModel);
+		});*/
+	},
+
+	//Tab clicked event
+	handleTabSelection: function (evt) {
+		if (evt.getParameters().selectedKey == "Orders") {
+			$("#idAddNewOrder").show();
+			$("#idSaveDetails").hide();
+		} else if (evt.getParameters().selectedKey == "Customer") {
+			$("#idAddNewOrder").hide();
+			$("#idSaveDetails").show();
+		}
+	},
+
+	handleEditCustomerDetails: function (evt) {
+		//@TODO:Here Edit web-services needs to be called
+		nav.showMessageDialog('Message', 'Customer Details saved !!!');
+	},
+
+	//Delete order
+	handleDelete: function (evt) {
+		busyDialog.open();
+		for (var i = 0; i < orderViewModel.oData.results.length; i++) {
+			//Check the Order ID to be deleted
+			if (orderViewModel.oData.results[i].OrderID == evt.oSource.getBindingContext().getObject().OrderID) {
+
+				//Remove selected Order from the orderViewModel
+				orderViewModel.oData.results.splice(i, 1);
+
+				//Refresh the model
+				orderViewModel.refresh(true);
+
+				//Update the order Count
+				countOrder.setCount(orderViewModel.oData.results.length);
+				nav.showMessageDialog('Message', 'Order Deleted !!!');
+				break;
+			}
+		}
+		busyDialog.close();
+	},
+
+	handleFileUpload: function (evt) {
+		
+	},
+
+	//Add new Order
+	handleAddNewOrder: function (evt) {
+		busyDialog.open();
+		//Creating order Object to add in Model
+		var orderObj = {
+			"OrderID" : "1232121",
+			"CustomerID" : $("#idCustomerId input").val(),
+			"Freight" : $("#idFreight input").val(),
+			"ShipName" : $("#idShipName input").val(),
+			"ShipAddress" : $("#idShipAddress input").val(),
+			"ShipCity" : $("#idShipCity input").val(),
+			"ShipRegion" : null,
+			"ShipPostalCode" : $("#idShipPostalCode input").val(),
+			"ShipCountry" : $("#idShipCountry input").val()
+		};
+
+		orderViewModel = sap.ui.getCore().getModel("orderViewModel");
+		orderViewModel.oData.results.push(orderObj);
+		orderViewModel.refresh(true);
+
+		//Update the order Count
+		countOrder.setCount(orderViewModel.oData.results.length);
+		this.closeAddOrderPopup(evt);
+		busyDialog.close();
+	},
+	
+	handleEditOrder: function (oEvent) {
+		var currentOrder = oEvent.oSource.getBindingContext().getObject();
+		singleOrderViewModel.setData(currentOrder);
+
+		// set singleOrderViewModel to the core
+		sap.ui.getCore().setModel(singleOrderViewModel, "singleOrderViewModel");
+
+		//Context of selected Customer
+		var context = oEvent.getSource().getBindingContext();
+		//this.nav = sap.ui.getCore().byId('App').getController();
+
+		//Navigate to Detail Page
+		nav.to("OrderDetail", context);
+	},
+
+	//Make all order popup textbox empty
+	emptyAddOrderPopup: function () {
+		$("#idFreight input").val('');
+		$("#idShipName input").val('');
+		$("#idShipAddress input").val('');
+		$("#idShipCity input").val('');
+		$("#idShipPostalCode input").val('');
+		$("#idShipCountry input").val('');
+		$("#idPhone input").val('');
+		$("#idFax input").val('');
+	},
+
+	//Close Order Popup
+	closeAddOrderPopup: function (evt) {
+		evt.getSource().getParent().close();
+	},
+/**
+* Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
+* (NOT before the first rendering! onInit() is used for that one!).
+* @memberOf smpdemo.Detail
+*/
+	onBeforeRendering: function() {
+		orderTable = sap.ui.getCore().byId("orderTableId");
+		detailViewModel = sap.ui.getCore().getModel("detailViewModel");
+		console.log("orderTable",orderTable);
+		console.log("detailViewModel",detailViewModel);
+		orderTable.setModel(detailViewModel);
+	},
+
+/**
+* Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
+* This hook is the same one that SAPUI5 controls get after being rendered.
+* @memberOf smpdemo.Detail
+*/
+	onAfterRendering: function() {
+		//Hide Save Details button
+		$("#idSaveDetails").hide();
+	},
+
+/**
+* Called when the Controller is destroyed. Use this one to free resources and finalize activities.
+* @memberOf smpdemo.Detail
+*/
+//	onExit: function() {
+//
+//	}
+
+	//Handling Add order
+	addOrderPopUp : function(evt){ 
+
+		if (! this._oDialog) {
+			this._oDialog = sap.ui.jsfragment("smpdemo.fragments.AddOrderFragment", this);
+		}
+		//open Add Order Popup
+		this._oDialog.open();
+
+		//Empty all text box values
+		this.emptyAddOrderPopup();
+
+		detailViewModel = sap.ui.getCore().getModel("detailViewModel");
+		$("#idCustomerId input").val(detailViewModel.oData.CustomerID);
+	},
+});

@@ -1,0 +1,119 @@
+sap.ui.jsview("smpdemo.Detail", {
+
+	/** Specifies the Controller belonging to this View. 
+	* In the case that it is not implemented, or that "null" is returned, this View does not have a Controller.
+	* @memberOf smpdemo.Detail
+	*/ 
+	getControllerName : function() {
+		return "smpdemo.Detail";
+	},
+
+	/** Is initially called once after the Controller has been instantiated. It is the place where the UI is constructed. 
+	* Since the Controller is given to this method, its event handlers can be attached right away. 
+	* @memberOf smpdemo.Detail
+	*/ 
+	createContent : function(oController) {
+		//Table to display Order Details
+		/*var oOrderTbl =	new sap.m.Table("orderTableId", {
+			columns : [ 
+	           new sap.m.Column({
+	        	   hAlign : "Center",
+	        	   header : new sap.m.Label({
+	        		   text : "Account Number",
+	        		   design : sap.ui.commons.LabelDesign.Bold
+	        	   })
+	           }),
+	           new sap.m.Column({
+	        	   hAlign : "Center",
+	        	   header : new sap.m.Label({
+	        		   text : "Name",
+	        		   design : sap.ui.commons.LabelDesign.Bold
+	        	   })
+	           }),
+			],
+			items : {
+				//Binding path
+				path : "/",
+				template : new sap.m.ColumnListItem({
+					cells : [
+					         new sap.m.Link({
+					        	 text: {
+					        		 path : "Id",
+					        	 },
+						         press: [oController.handleEditOrder, oController]
+					        	 
+					         }),
+					         
+					         new sap.m.Text({
+					        	 text : {
+					        		 path : "Owner/Name",
+					        	 }
+					         }),
+					  ]
+				})
+			}
+		});*/
+		var oEditOrderForm = new sap.ui.layout.form.FormContainer("orderTableId",{
+			title: "",
+			formElements: [
+				new sap.ui.layout.form.FormElement({
+					label : new sap.m.Label(
+							{
+								text : "Application Name",
+							}).addStyleClass("label-layout"),
+					fields: [new sap.m.Input("idEditOrderID", {"value": "{/applicationName}",enabled: false}
+							)]
+				}),
+				new sap.ui.layout.form.FormElement({
+					label : new sap.m.Label(
+							{
+								text : "Account Number",
+							}).addStyleClass("label-layout"),
+					fields: [new sap.m.Input("idEditCustomerId", {"value": "{/data/0/Id}",
+						enabled: false})]
+				}),
+
+				new sap.ui.layout.form.FormElement({
+					label : new sap.m.Label(
+							{
+								text : "Name",
+							}).addStyleClass("label-layout"),
+					fields: [new sap.m.Input("idEditFreight", {"value": "{/data/0/Owner/Name}",enabled: false})]
+				}),
+				new sap.ui.layout.form.FormElement({
+					label : new sap.m.Label(
+							{
+								text : "Duration",
+							}).addStyleClass("label-layout"),
+					fields: [new sap.m.Input("idEditShipName", {"value": "{/duration}",enabled: false})]
+				}),
+				]
+		});
+
+		//Add Order Form Layout(ResponsiveGridLayout)
+		var oEditOrderFormLayout = new sap.ui.layout.form.Form("EditOrderDetails",{
+			layout: new sap.ui.layout.form.ResponsiveGridLayout({
+				"labelSpanM": 3,
+				"emptySpanL": 4,
+				"emptySpanM": 4,
+				"columnsL": 2,
+				"columnsM": 2
+			}),
+			formContainers: [oEditOrderForm]
+		});
+
+		//Footer Bar
+		var footerBar = new sap.m.Bar({
+			contentRight : [ ]
+		});
+
+		return new sap.m.Page({
+			title: localStorage.getItem("title")+" Details",
+			showNavButton: false,
+			//navButtonPress: [oController.toggleMasterView, oController],
+			content: [oEditOrderFormLayout],
+			footer: footerBar
+		});
+	}
+
+});

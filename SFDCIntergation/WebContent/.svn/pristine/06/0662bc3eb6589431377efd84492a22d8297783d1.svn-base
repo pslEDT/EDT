@@ -1,0 +1,65 @@
+#__page0-cont{
+	overflow-x: visible !important;
+	overflow-y: visible !important;
+}
+.register-btn{
+	color: #fff !important;
+	background-color: #337ab7 !important;
+	border-color: #2e6da4;
+	display: inline-block;
+	cursor: pointer !important;
+	border: 1px solid transparent !important;
+	border-radius: 23px !important;
+	min-width: 7rem !important;
+	font-size: 1rem !important;
+}
+#__page0-scroll{
+	background: rgb(141, 182, 255) !important;
+}
+#__page0-scroll .sapMGlobalBackgroundImage{
+	background-image: none !important;
+}
+.button-container div.sapMFlexItem{
+	margin-right: 0.5rem;
+}
+.img-container{
+	margin: 10% 0 0 0;
+}
+.smp-text{
+	font-size: 30px !important;
+	color: antiquewhite !important;
+	font-family: serif !important;
+	font-weight: bolder !important;
+}
+.text-container{
+	margin: 1.3rem 0;
+}
+.sapMBtn{
+	text-shadow: none !important;
+}
+.sapMLabel{
+	padding-top: 0px !important;
+}
+
+.landing-btn{
+	  border-radius: 14px !important;
+  height: 13rem !important;
+  width: 13rem;
+  background-color: blueviolet!important;
+  font-size: 2rem !important;
+  color: #FFF !important;
+    margin-right: 1rem !important;
+}
+.landing-button-container{
+	margin-top:5%;
+}
+.sapMStdTileTitle {
+  text-align: center !important;
+  font-size: 1.5rem !important;
+}
+.label-layout{
+	margin-top: 8%;
+}
+.sapMITBFilter .sapMITBText, .sapMITBTab {
+	width: 6rem !important;
+}

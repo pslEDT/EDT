@@ -1,0 +1,207 @@
+sap.ui.jsview("smpdemo.Landing", {
+
+	/** Specifies the Controller belonging to this View. 
+	* In the case that it is not implemented, or that "null" is returned, this View does not have a Controller.
+	* @memberOf smpdemo.Landing
+	*/ 
+	getControllerName : function() {
+		return "smpdemo.Landing";
+	},
+
+	/** Is initially called once after the Controller has been instantiated. It is the place where the UI is constructed. 
+	* Since the Controller is given to this method, its event handlers can be attached right away. 
+	* @memberOf smpdemo.Landing
+	*/ 
+	createContent : function(oController) {
+		var leadButton =  new sap.m.StandardTile("leadButtonId", {
+			number : 15 ,
+			title : "View Leads" ,
+			infoState : "Error"
+		});
+		leadButton.attachPress(function(oEvent) {
+			busyDialog.open();
+			console.log("LeadButton clicked!!!");
+			$.ajax({			
+				url : "http://10.11.46.11:8081/com.persistent.sfdc.Trial?path=lead/listviews",				// the URL for the request
+				type : "GET",		// whether this is a POST or GET request
+				headers: {"X-SMP-APPCID":localStorage.getItem("APPCID"), "Access-Control-Allow-Origin": true},
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {	// code to run if the request succeeds; the response is passed to the function
+					console.log("Success response : ",response);
+					var oModelLead = new sap.ui.model.json.JSONModel();
+					oModelLead.setData(JSON.parse(response));
+					sap.ui.getCore().setModel(oModelLead,"masterModel");
+					localStorage.setItem("title","Lead");
+					app.to("idLeadApp");
+				},
+				error : function(xhr, status) {	// code to run if the request fails; the raw request and status codes are passed to the function				
+					console.log("Error response : ",status);
+					alert("Error while fetching details.");
+					
+				},
+				complete : function(xhr, status) {		// code to run regardless of success or failure
+					console.log("In complete");
+					busyDialog.close();
+				}
+			});
+        });
+		
+		var caseBtn =  new sap.m.StandardTile("caseBtnId", {
+		      number : 3,
+		      title : "View Cases",
+		      infoState : "Error"
+        });
+		caseBtn.attachPress(function(oEvent) {
+			console.log("caseBtn clicked!!!");
+			busyDialog.open();
+			$.ajax({			
+				url : "http://10.11.46.11:8081/com.persistent.sfdc.Trial?path=case/listviews",				// the URL for the request
+				type : "GET",		// whether this is a POST or GET request
+				headers: {"X-SMP-APPCID":localStorage.getItem("APPCID"), "Access-Control-Allow-Origin": true},
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {	// code to run if the request succeeds; the response is passed to the function
+					console.log("Success response : ",response);
+					var oModelCase = new sap.ui.model.json.JSONModel();
+					oModelCase.setData(JSON.parse(response));
+					sap.ui.getCore().setModel(oModelCase,"masterModel");
+					localStorage.setItem("title","Case");
+					app.to("idCaseApp");
+				},
+				error : function(xhr, status) {	// code to run if the request fails; the raw request and status codes are passed to the function				
+					console.log("Error response : ",status);
+					alert("Error while fetching details.");
+					
+				},
+				complete : function(xhr, status) {		// code to run regardless of success or failure
+					console.log("In complete");
+					busyDialog.close();
+				}
+			});
+        });
+		
+		var contactBtn =  new sap.m.StandardTile("contactBtnId", {
+			number : 20 ,
+            title : "View Contacts" ,
+            infoState : "Error"
+        });
+		contactBtn.attachPress(function(oEvent) {
+			console.log("contactBtn clicked!!!");
+			busyDialog.open();
+			$.ajax({			
+				url : "http://10.11.46.11:8081/com.persistent.sfdc.Trial?path=contact/listviews",				// the URL for the request
+				type : "GET",		// whether this is a POST or GET request
+				headers: {"X-SMP-APPCID":localStorage.getItem("APPCID"), "Access-Control-Allow-Origin": true},
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {	// code to run if the request succeeds; the response is passed to the function
+					console.log("Success response : ",response);
+					var oModelCase = new sap.ui.model.json.JSONModel();
+					oModelCase.setData(JSON.parse(response));
+					sap.ui.getCore().setModel(oModelCase,"masterModel");
+					localStorage.setItem("title","Case");
+					app.to("idContactApp");
+				},
+				error : function(xhr, status) {	// code to run if the request fails; the raw request and status codes are passed to the function				
+					console.log("Error response : ",status);
+					alert("Error while fetching details.");
+					
+				},
+				complete : function(xhr, status) {		// code to run regardless of success or failure
+					console.log("In complete");
+					busyDialog.close();
+				}
+			});
+        });
+		
+		var opportunityBtn =  new sap.m.StandardTile("opportunityBtnId", {
+			number : 25 ,
+            title : "View Opportunitys" ,
+            infoState : "Error"
+        });
+		opportunityBtn.attachPress(function(oEvent) {
+			console.log("opportunityBtn clicked!!!");
+			busyDialog.open();
+			$.ajax({			
+				url : "http://10.11.46.11:8081/com.persistent.sfdc.Trial?path=opportunity/listviews",				// the URL for the request
+				type : "GET",		// whether this is a POST or GET request
+				headers: {"X-SMP-APPCID":localStorage.getItem("APPCID"), "Access-Control-Allow-Origin": true},
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {	// code to run if the request succeeds; the response is passed to the function
+					console.log("Success response : ",response);
+					var oModelCase = new sap.ui.model.json.JSONModel();
+					oModelCase.setData(JSON.parse(response));
+					sap.ui.getCore().setModel(oModelCase,"masterModel");
+					app.to("idOpportunityApp");
+				},
+				error : function(xhr, status) {	// code to run if the request fails; the raw request and status codes are passed to the function				
+					console.log("Error response : ",status);
+					alert("Error while fetching details.");
+					
+				},
+				complete : function(xhr, status) {		// code to run regardless of success or failure
+					console.log("In complete");
+					busyDialog.close();
+				}
+			});
+        });
+		
+		var accountBtn =  new sap.m.StandardTile("accountBtnId", {
+			number : 12 ,
+            title : "View Accounts" ,
+            infoState : "Error"
+        });
+		accountBtn.attachPress(function(oEvent) {
+			console.log("accountBtn clicked!!!");
+			busyDialog.open();
+			$.ajax({			
+				url : "http://10.11.46.11:8081/com.persistent.sfdc.Trial?path=account/listviews",				// the URL for the request
+				type : "GET",		// whether this is a POST or GET request
+				headers: {"X-SMP-APPCID":localStorage.getItem("APPCID"), "Access-Control-Allow-Origin": true},
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {	// code to run if the request succeeds; the response is passed to the function
+					console.log("Success response : ",response);
+					var oModelCase = new sap.ui.model.json.JSONModel();
+					oModelCase.setData(JSON.parse(response));
+					sap.ui.getCore().setModel(oModelCase,"masterModel");
+					app.to("idAccountApp");
+				},
+				error : function(xhr, status) {	// code to run if the request fails; the raw request and status codes are passed to the function				
+					console.log("Error response : ",status);
+					alert("Error while fetching details.");
+					
+				},
+				complete : function(xhr, status) {		// code to run regardless of success or failure
+					console.log("In complete");
+					busyDialog.close();
+				}
+			});
+        });
+		
+		var portfolioBtn =  new sap.m.StandardTile("portfolioBtnId", {
+			number : 0 ,
+            title : "View Portfolios" ,
+            infoState : "Error"
+        });
+		portfolioBtn.attachPress(function(oEvent) {
+			console.log("portfolioBtn clicked!!!");
+        });
+		  
+		var oFirstBtnHBox = new sap.m.HBox({
+			items: [leadButton, caseBtn, contactBtn]
+		}).addStyleClass('landing-button-container');
+		oFirstBtnHBox.setJustifyContent("Center");
+		
+		var oSecondBtnHBox = new sap.m.HBox({
+			items: [opportunityBtn, accountBtn, portfolioBtn]
+		}).addStyleClass('');
+		oSecondBtnHBox.setJustifyContent("Center");
+		
+		var oVBox = new sap.m.VBox({
+			items: [oFirstBtnHBox, oSecondBtnHBox]
+		});
+ 		return new sap.m.Page({
+			title: "Modules",
+			content: [oVBox]
+		});
+	}
+
+});
